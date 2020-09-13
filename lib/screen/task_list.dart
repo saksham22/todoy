@@ -19,13 +19,10 @@ class _TaskListState extends State<TaskList> {
           widget.tasks[index].toggleDone();
         });
       });
-    },
+
+      },
       itemCount: widget.tasks.length,
-//      children: <Widget>[
-//        TaskTile(title: tasks[0].name,isChecked: tasks[0].isDone,),
-//        TaskTile(title: tasks[1].name,isChecked: tasks[1].isDone,),
-//        TaskTile(title: tasks[2].name,isChecked: tasks[2].isDone,),
-//      ],
+
     );
   }
 }

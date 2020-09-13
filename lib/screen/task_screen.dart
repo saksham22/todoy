@@ -4,6 +4,8 @@ import 'package:todoy/screen/add_tasks.dart';
 import 'task_list.dart';
 import 'add_tasks.dart';
 import 'package:todoy/models/task.dart';
+import 'task_tile.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 class TaskScreen extends StatefulWidget {
 
   @override
@@ -15,7 +17,9 @@ class _TaskScreenState extends State<TaskScreen> {
   void addNewItem(String item){
     tasks.add(Task(name: item));
   }
-
+ void delTask(int index){
+    tasks.removeAt(index);
+ }
   List <Task> tasks=[
     Task(name: 'Buy Milk'),
     Task(name: 'ATM'),
@@ -70,8 +74,55 @@ class _TaskScreenState extends State<TaskScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30))
               ),
-              child: TaskList(tasks),
+//              child:TaskList(tasks),
+            child: ListView.builder(itemBuilder: (context,index){
+              return TaskTile(title:tasks[index].name ,isChecked: tasks[index].isDone,longpress:(){
+                Alert(
+                  context: context,
+                  type: AlertType.warning,
+                  title: "Delete Task",
+                  desc: "Are you sure you want to Delete?",
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: (){
+                        setState(() {
+                          tasks.removeAt(index);
+                        });
+                        Navigator.pop(context);
+                      } ,
+                      color: Color.fromRGBO(0, 179, 134, 1.0),
+                    ),
+                    DialogButton(
+                      child: Text(
+                        "No",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      gradient: LinearGradient(colors: [
+                        Color.fromRGBO(116, 116, 191, 1.0),
+                        Color.fromRGBO(52, 138, 199, 1.0)
+                      ]),
+                    )
+                  ],
+                ).show();
+
+              },cbCall:(bool cbState){
+                setState(() {
+                  tasks[index].toggleDone();
+                });
+
+              },
+
+              );
+            },
+              itemCount: tasks.length,
             ),
+            )
+            ,
           ),
         ],
       ),
@@ -85,6 +136,7 @@ class _TaskScreenState extends State<TaskScreen> {
             });
             Navigator.pop(context);
           }));
+
         },
       ),
     );

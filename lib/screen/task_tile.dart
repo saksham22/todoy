@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todoy/models/task.dart';
 class TaskTile extends StatelessWidget {
-  TaskTile({this.title,this.isChecked,this.cbCall});
+  TaskTile({this.title,this.isChecked,this.cbCall,this.longpress});
   final String title;
   final bool isChecked;
   final Function cbCall;
+  final Function longpress;
   void checkT(bool newVal){
 //setState(() {
 //  isChecked=newVal;
@@ -20,6 +21,7 @@ class TaskTile extends StatelessWidget {
           onChanged:cbCall,
 
     ),
+    onLongPress: longpress,
     );
   }
 }
